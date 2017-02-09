@@ -15,25 +15,26 @@
     <content></content>   
 </template>
 
-<script>
+<script type="text/javascript" async>
+    (function() {
+        'use strict';
 
-    var importDoc = document.currentScript.ownerDocument;
+        let currentScript = document._currentScript || document.currentScript;
+        let importDoc = currentScript ? currentScript.ownerDocument : document; 
 
-    class MyNavigation extends HTMLElement {
+        class MyNavigation extends HTMLElement {
 
-        createdCallback() {
+            createdCallback() {
 
-            console.log('link', this.link);
+                let template = importDoc.querySelector('#navigation');
 
-            var template = importDoc.querySelector('#navigation');
+                // import template into
+                let clone = document.importNode(template.content, true);
 
-            // import template into
-            var clone = document.importNode(template.content, true);
-
-            var root = this.createShadowRoot();
-            root.appendChild(clone);
+                this.createShadowRoot().appendChild(clone);
+            }
         }
-    }
-    
-    document.registerElement('my-navigation', MyNavigation);
+        
+        document.registerElement('my-navigation', MyNavigation);
+    })();
 </script>
